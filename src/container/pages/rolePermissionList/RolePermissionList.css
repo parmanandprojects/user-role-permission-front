@@ -1,0 +1,19 @@
+/* .Role-Div{
+    background-color: rgb(136, 159, 179);
+    height: 100vh;
+    width: 100%;
+    
+} */
+
+
+.add-role-box{
+    display: flex;
+    width: 100%;
+    justify-content: start;
+    align-items: start;
+    margin: 10px;
+}
+.submit-btn-div{
+
+    padding: 50px;
+}
