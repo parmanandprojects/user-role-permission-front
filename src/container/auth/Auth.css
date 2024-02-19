@@ -1,0 +1,71 @@
+.first-div-form {
+  background-image: url("../../../public/blue-back.avif");
+  background-repeat: no-repeat;
+  height: 100vh;
+  background-size: cover;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.middle-div-form form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.form-tab-bar {
+  width: 100%;
+  display: flex;
+}
+
+.middle-div-form form .form-input .MuiOutlinedInput-root {
+  border-radius: 30px;
+  margin-top: 10px;
+  border: 2px solid white;
+}
+
+.middle-div-form {
+  background-color: rgba(77, 74, 72, 0.281);
+  backdrop-filter: blur(5px);
+  height: 60%;
+  width: 30%;
+  border-radius: 20px;
+  border: 2px solid white;
+  padding: 10px;
+}
+
+.middle-div-form .form-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(15, 16, 17);
+  padding: 10px;
+  width: 50%;
+  border: 2px solid grey;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.middle-div-form form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+.middle-div-form form .forget-box {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.btn-submit {
+  margin-top: 20px;
+}
+
