@@ -79,7 +79,7 @@ export const addRolePermission = createAsyncThunk(
         API.ADD_ROLE_PERMISSION,
         data
       );
-      console.log("add_rolePermission", add_rolePermission);
+      
       if (add_rolePermission.status === 201) {
         return add_rolePermission;
       }
@@ -124,21 +124,18 @@ export const deleteUser = createAsyncThunk(
 
 export const UpdateUser = createAsyncThunk(
   "UpdateUser",
-  async (data, { rejectWithValue }) => {
-    debugger;
-    console.log(data, "updateCommingData");
+  async ({data,id}, { rejectWithValue }) => {
+    // debugger;
+    console.log(JSON.stringify(data, "IDupdateCommingData"));
     try {
       // let id=data?.id;
-      const update_user = await dataService.put(
-        `${API.UPDATE_USER}/${"sdfsdf"}`,
+      const update_user = await dataService.post(
+        `${API.UPDATE_USER}/${id}`,
         data
       );
-      console.log("update_USER", update_user);
-      if (update_user.status === 200) {
         return update_user;
-      }
     } catch (err) {
-      console.log(err.message, "err");
+      console.log(err?.message, "err");
       rejectWithValue(err);
     }
   }

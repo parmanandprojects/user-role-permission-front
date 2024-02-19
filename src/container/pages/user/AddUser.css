@@ -26,3 +26,47 @@
     align-items: center;
     justify-content: space-between;
 }
+.user-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+.user-image{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    appearance: 0;
+}
+.model-div{
+    /* background-color: aliceblue; */
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.model-wrapper{
+    /* background-color: aquamarine; */
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+
+}
+.model-wrapper fieldset {
+    margin: 8px;
+}
+.profile-image{
+    height: 95px;
+    width: 98px;
+    border-radius: 50%;
+}
+.profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile img{
+    height: 200px;width: 200px;
+}

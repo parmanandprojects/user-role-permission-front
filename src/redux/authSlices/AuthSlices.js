@@ -4,13 +4,13 @@ import { userLogin } from "..";
 
 const AuthSlices = createSlice({
   name: "authSlice",
-  initialState: { loading: false, token: "", data: [] },
+  initialState: { loading: false, token: "", user:null },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(userLogin.fulfilled, (state, action) => {
       state.token = action?.payload?.data?.user?.token;
-    //   console.log(action.payload.data.user.token, "action");
-    });
+      state.user = action?.payload?.data?.user;
+    })
   },
 });
 

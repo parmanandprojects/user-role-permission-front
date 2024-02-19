@@ -52,6 +52,7 @@ const AddUser = () => {
     
 if(location.state._id){
   const formData = new FormData();
+   console.log(values.name,"valuesName")
       formData.append("name", values?.name);
       formData.append("email", values?.email);
       formData.append("mobile", values?.mobile);
@@ -62,13 +63,14 @@ if(location.state._id){
       alert(JSON.stringify(values, null, 2));
 
 
-   dispatch(UpdateUser(formData,location.state._id))
-        // .then((res) => {
-        //   if (res?.payload?.data?.status == 201) {
-        //     toast.success(res?.payload?.data?.message);
-        //     navigate("/admin/dashboard/user-list");
-        //   }
-        // })
+  //  dispatch(UpdateUser({...values,id:location.state._id}))
+   dispatch(UpdateUser({data:formData,id:location.state._id}))
+        .then((res) => {
+          if (res?.payload?.data?.status == 200) {
+            toast.success(res?.payload?.data?.message);
+            navigate("/admin/dashboard/user-list");
+          }
+        })
         // .catch((err) => console.log("err", err));
 }else{
 

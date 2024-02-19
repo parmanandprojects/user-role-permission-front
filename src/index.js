@@ -6,8 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 // import { store } from "./redux/store";
 import { BrowserRouter } from "react-router-dom";
-import { PersistGate } from "redux-persist/integration/react"; // Import PersistGate
-import { store, persistor } from "./store";
+import { PersistGate } from "redux-persist/integration/react"; //
+import { store, persistor } from "./redux/store";
 
 import "react-toastify/dist/ReactToastify.css";
 
