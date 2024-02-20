@@ -70,3 +70,8 @@
 .profile img{
     height: 200px;width: 200px;
 }
+.edit-imagee{
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}

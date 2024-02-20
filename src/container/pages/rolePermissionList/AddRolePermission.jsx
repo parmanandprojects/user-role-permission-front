@@ -130,7 +130,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addRolePermission, getAllRolePermission } from "../../../redux";
 import { toast } from "react-toastify";
-import "./RolePermissionList.css";
+import "./RolePermission.css";
 import { Box, Button, TextField } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -142,9 +142,11 @@ import Paper from "@mui/material/Paper";
 import { useFormik } from "formik";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { useNavigate } from "react-router-dom";
 
-const RolePermissionList = () => {
+const AddRolePermission = () => {
   let dispatch=useDispatch()
+  let navigate=useNavigate();
   const formik = useFormik({
     initialValues: {
       role_name: "",
@@ -175,10 +177,14 @@ const RolePermissionList = () => {
     },
     onSubmit: (values) => {
       console.log(values);
-      dispatch(addRolePermission(values)).then((res)=>{
+      const { role_name, ...permission } = values;
+
+      dispatch(addRolePermission({ role_name, permission })).then((res)=>{
         if(res?.payload?.status==201){
           console.log(res?.payload?.data?.message,"ress")
           toast.success(res?.payload?.data?.message)
+          navigate("/admin/dashboard/role-permission-list")
+          
         }
       })
       
@@ -189,6 +195,31 @@ const RolePermissionList = () => {
     const { name, checked } = event.target;
     formik.setFieldValue(name, checked);
   };
+
+
+
+  const handleCheckboxChangeall = (event) => {
+    const { name, checked } = event.target;
+    const [moduleName, permissionType] = name.split(".");
+    
+    if (permissionType === "all") {
+      // If "All" checkbox is clicked, set all permissions in the same row to the same value
+      const updatedPermissions = { ...formik.values[moduleName] };
+      for (const key in updatedPermissions) {
+        if (key !== "module_access") {
+          updatedPermissions[key] = checked;
+        }
+      }
+      formik.setValues({
+        ...formik.values,
+        [moduleName]: updatedPermissions,
+      });
+    } else {
+      // If any other checkbox is clicked, update its value
+      formik.setFieldValue(name, checked);
+    }
+  };
+  
   return (
     <>
       <Box className="Role-Div">
@@ -237,7 +268,7 @@ const RolePermissionList = () => {
                         control={
                           <Checkbox
                             checked={formik.values.attendance.all}
-                            onChange={handleCheckboxChange}
+                            onClick={(e)=>handleCheckboxChangeall(e) }
                             name="attendance.all"
                           />
                         }
@@ -321,7 +352,7 @@ const RolePermissionList = () => {
                         control={
                           <Checkbox
                             checked={formik.values.user.all}
-                            onChange={handleCheckboxChange}
+                            onClick={(e)=>handleCheckboxChangeall(e) }
                             name="user.all"
                           />
                         }
@@ -405,7 +436,7 @@ const RolePermissionList = () => {
                         control={
                           <Checkbox
                             checked={formik.values.task.all}
-                            onChange={handleCheckboxChange}
+                            onClick={(e)=>handleCheckboxChangeall(e) }
                             name="task.all"
                           />
                         }
@@ -488,4 +519,4 @@ const RolePermissionList = () => {
   );
 };
 
-export default RolePermissionList;
+export default AddRolePermission;

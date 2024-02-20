@@ -1,0 +1,39 @@
+/* .Role-Div{
+    background-color: rgb(136, 159, 179);
+    height: 100vh;
+    width: 100%;
+    
+} */
+
+
+.add-role-box{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: start;
+    margin: 10px;
+
+}
+.submit-btn-div{
+
+    padding: 50px;
+}
+.permission-view-box{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+.model-wrapper-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid #000;
+    box-shadow: 24;
+    padding: 20px;
+    border-radius: 10px
+  };
+

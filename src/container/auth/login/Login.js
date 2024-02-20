@@ -32,10 +32,10 @@ const Login = () => {
     onSubmit: (values) => {
       dispatch(userLogin(values)).then((res) => {
         if (res?.payload?.data?.status == 200) {
-          console.log(res.payload.data.user, 456);
+          console.log(res.payload.data.user.token, 456);
           toast.success(res?.payload?.data?.message);
-          let user = JSON.stringify(res?.payload?.data?.user); // we make json stringify bcz is server response user json so make string user detail
-          localStorage.setItem("loginToken", user);
+          // let user = JSON.stringify(res?.payload?.data?.user); // we make json stringify bcz is server response user json so make string user detail
+          localStorage.setItem("loginToken", res?.payload?.data?.user.token);
           navigate("admin/dashboard");
         }
       });

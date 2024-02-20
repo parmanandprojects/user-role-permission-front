@@ -13,10 +13,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { Link } from 'react-router-dom';
-
-
+import { useSelector } from 'react-redux';
 
 const Sidebar = ({handleDrawerClose,open}) => {
+const {rolePermission}= useSelector((state)=>state?.Auth.user);
+console.log(rolePermission.role_name,"rolePermission")
 
 const theme = useTheme();
 const drawerWidth = 240;
@@ -49,42 +50,42 @@ const DrawerHeader = styled('div')(({ theme }) => ({
         </DrawerHeader>
         <Divider />
         <List>
-            <Link to="/admin/dashboard/role-list"><ListItem disablePadding>
+        <Link to="/admin/dashboard/role-permission-list"><ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Role Master"} />
+                <ListItemText primary={"Role Permission List"} />
               </ListItemButton>
-            </ListItem></Link>
+            </ListItem></Link> 
 
-            <Link to="/admin/dashboard/user-list"><ListItem disablePadding>
+     {rolePermission.role_name=="sub-admin"?<Link to="/admin/dashboard/user-list"><ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
                 <ListItemText primary={"User List"} />
               </ListItemButton>
-            </ListItem></Link>
+            </ListItem></Link> :""}      
         </List>
 
-        <Link to="/admin/dashboard/role-list"><ListItem disablePadding>
+        <Link to="/admin/dashboard/role-permission-list"><ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Task List"} />
+                <ListItemText primary={"Role Permssion List"} />
               </ListItemButton>
             </ListItem></Link>
 
-            <Link to="/admin/dashboard/role-list"><ListItem disablePadding>
+            {rolePermission.role_name=="HR-officer"?  <Link to="/admin/dashboard/role-list"><ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Attendance"} />
               </ListItemButton>
-            </ListItem></Link>
+            </ListItem></Link> :""}
         <Divider />
         {/* <List>
           {['All mail'].map((text, index) => (

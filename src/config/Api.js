@@ -9,6 +9,8 @@ export const API={
     ADD_USER:`${USER}/add-user`,
     UPDATE_USER:`${USER}/update-user`,
     DELETE_USER:`${USER}/delete-user`,
+    GET_ALL_ROLEPERMISSION:`${ADMIN}/get-all-role-permission`,
+    DELETE_ROLE_PERMISSION:`${ADMIN}/delete-role-permission`
 
 
 }

@@ -8,8 +8,14 @@ const AuthSlices = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(userLogin.fulfilled, (state, action) => {
+      console.log(action,78)
       state.token = action?.payload?.data?.user?.token;
       state.user = action?.payload?.data?.user;
+    })
+    builder.addCase(userLogin.rejected, (state, action) => {
+      console.log(action)
+      // state.token = action?.payload?.data?.user?.token;
+      // state.user = action?.payload?.data?.user;
     })
   },
 });

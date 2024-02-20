@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 //Auth--
 export const userLogin = createAsyncThunk(
-  "userLogin",
+  "userLogin/authSlice",
   async (data, { rejectWithValue }) => {
     console.log(data, "authSlice/loginData");
     try {
@@ -26,12 +26,9 @@ export const getAllRolePermission = createAsyncThunk(
     try {
       const rolePermission_response = await dataService.get(
         API.GET_ROLES_PERMISSION
-      );
-
-      console.log("rolePermission_response", rolePermission_response);
-      if (rolePermission_response?.status === 200) {
+      );   
         return rolePermission_response;
-      }
+      
     } catch (err) {
       rejectWithValue(err);
     }
@@ -52,6 +49,21 @@ export const getAllUsers = createAsyncThunk(
     }
   }
 );
+
+// export const getAllRolePermission = createAsyncThunk(
+//   "getAllRolePermission",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const allUser_response = await dataService.get(API.GET_ALL_ROLEPERMISSION);
+//       console.log("allUser_response", allUser_response);
+//       if (allUser_response?.status === 200) {
+//         return allUser_response;
+//       }
+//     } catch (err) {
+//       rejectWithValue(err);
+//     }
+//   }
+// );
 
 export const getSingleUsers = createAsyncThunk(
   "getSingleUsers",
@@ -79,10 +91,9 @@ export const addRolePermission = createAsyncThunk(
         API.ADD_ROLE_PERMISSION,
         data
       );
-      
-      if (add_rolePermission.status === 201) {
+   
         return add_rolePermission;
-      }
+    
     } catch (err) {
       rejectWithValue(err);
     }
@@ -114,6 +125,24 @@ export const deleteUser = createAsyncThunk(
       console.log("delete_USER", delete_user);
       if (delete_user.status === 200) {
         return delete_user;
+      }
+    } catch (err) {
+      console.log(err.message, "err");
+      rejectWithValue(err);
+    }
+  }
+);
+
+
+export const deleteRolePermission = createAsyncThunk(
+  "deleteRolePermission",
+  async (id, { rejectWithValue }) => {
+    console.log(id, "deleteRolePermissionID");
+    try {
+      const delete_role_permission = await dataService.delete(`${API.DELETE_ROLE_PERMISSION}/${id}`);
+      console.log("delete_ROLE_PERMISSION", delete_role_permission);
+      if (delete_role_permission.status === 200) {
+        return delete_role_permission;
       }
     } catch (err) {
       console.log(err.message, "err");
