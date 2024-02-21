@@ -33,7 +33,7 @@ const Login = () => {
       dispatch(userLogin({data:values,navigate})).then((res) => {
         if (res?.payload?.data?.status == 200) {
           console.log(res.payload.data.user.token, 456);
-          toast.success(res?.payload?.data?.message);
+          // toast.success(res?.payload?.data?.message);
           // let user = JSON.stringify(res?.payload?.data?.user); // we make json stringify bcz is server response user json so make string user detail
           localStorage.setItem("loginToken", res?.payload?.data?.user.token);
           navigate("admin/dashboard");

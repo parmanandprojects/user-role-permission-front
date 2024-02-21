@@ -60,7 +60,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
               </ListItemButton>
             </ListItem></Link>  :""}    
 
-     {rolePermission?.role_name=="warden" || "HR-officer"||"admin"?
+     {rolePermission?.role_name=="warden" || rolePermission?.role_name=="admin"?
       <Link to="/admin/dashboard/warden">
       <ListItem disablePadding>
               <ListItemButton>
@@ -73,7 +73,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
        </Link>  
             :""}      
         </List>
- {rolePermission?.role_name== "HR-officer"||"admin"||"sub-admin"?
+ {rolePermission?.role_name== "HR-officer"||rolePermission?.role_name=="admin"||rolePermission?.role_name=="sub-admin"?
         <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
@@ -84,7 +84,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
             </ListItem>
                  :""} 
 
-            {rolePermission?.role_name=="HR-officer"||"sub-admin"||"admin"?  <Link to="/admin/dashboard/attendance"><ListItem disablePadding>
+            {rolePermission?.role_name=="HR-officer"||rolePermission?.role_name=="sub-admin"||rolePermission?.role_name=="admin"?  <Link to="/admin/dashboard/attendance"><ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
@@ -93,8 +93,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
               </ListItemButton>
             </ListItem></Link> :""}
 
+            {rolePermission?.role_name=="HR-officer"||rolePermission?.role_name=="sub-admin"||rolePermission?.role_name=="admin"?  <Link to="/admin/dashboard/user-list"><ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <InboxIcon />
+                </ListItemIcon>
+                <ListItemText primary={"User List"} />
+              </ListItemButton>
+            </ListItem></Link> :""}
 
-            {rolePermission?.role_name=="tpm"||"sub-admin"||"admin"?  <ListItem disablePadding>
+
+            {rolePermission?.role_name=="tpm"||rolePermission?.role_name=="sub-admin"||rolePermission?.role_name=="admin"?  <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
