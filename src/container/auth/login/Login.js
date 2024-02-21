@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import "../Auth.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import MailIcon from "@mui/icons-material/Mail";
@@ -20,7 +20,8 @@ import { toast } from "react-toastify";
 const Login = () => {
   const [passwordView, setPasswordview] = useState(false);
   const dispatch = useDispatch();
-  useSelector((state)=>console.log(state,789))
+  let navigate = useNavigate();
+  useSelector((state) => console.log(state, 789));
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -29,9 +30,13 @@ const Login = () => {
     },
     validationSchema: LoginValidationSchema,
     onSubmit: (values) => {
-      dispatch(userLogin(values)).then((res) => {
-        if (res?.payload?.data.status == 200) {
-          toast.success(res.payload.data.message);
+      dispatch(userLogin({data:values,navigate})).then((res) => {
+        if (res?.payload?.data?.status == 200) {
+          console.log(res.payload.data.user.token, 456);
+          // toast.success(res?.payload?.data?.message);
+          // let user = JSON.stringify(res?.payload?.data?.user); // we make json stringify bcz is server response user json so make string user detail
+          localStorage.setItem("loginToken", res?.payload?.data?.user.token);
+          navigate("admin/dashboard");
         }
       });
     },

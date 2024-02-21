@@ -5,17 +5,18 @@ import { toast } from "react-toastify";
 
 //Auth--
 export const userLogin = createAsyncThunk(
-  "userLogin",
-  async (data, { rejectWithValue }) => {
+  "userLogin/authSlice",
+  async ({data,navigate}, { rejectWithValue }) => {
     console.log(data, "authSlice/loginData");
     try {
       const add_rolePermission = await dataService.post(API.LOGIN, data);
-      // console.log("LOGIN_USER", add_rolePermission);
-
+      if(addRolePermission?.data?.status==200){
+        navigate("admin/dashboard");
+      }
       return add_rolePermission;
     } catch (err) {
-      toast.error(err.response.data.message);
-      rejectWithValue(err);
+      // toast.error(err.response.data.message);
+      return rejectWithValue(err?.response?.data);
     }
   }
 );
@@ -27,13 +28,9 @@ export const getAllRolePermission = createAsyncThunk(
       const rolePermission_response = await dataService.get(
         API.GET_ROLES_PERMISSION
       );
-
-      console.log("rolePermission_response", rolePermission_response);
-      if (rolePermission_response?.status === 200) {
-        return rolePermission_response;
-      }
+      return rolePermission_response;
     } catch (err) {
-      rejectWithValue(err);
+      return rejectWithValue(err?.response?.data);
     }
   }
 );
@@ -44,76 +41,98 @@ export const getAllUsers = createAsyncThunk(
     try {
       const allUser_response = await dataService.get(API.GET_ALL_USERS);
       console.log("allUser_response", allUser_response);
-      if (allUser_response?.status === 200) {
-        return allUser_response;
-      }
+      return allUser_response;
     } catch (err) {
-      rejectWithValue(err);
+      return rejectWithValue(err?.response?.data);
     }
   }
 );
 
+// export const getAllRolePermission = createAsyncThunk(
+//   "getAllRolePermission",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const allUser_response = await dataService.get(API.GET_ALL_ROLEPERMISSION);
+//       console.log("allUser_response", allUser_response);
+//       if (allUser_response?.status === 200) {
+//         return allUser_response;
+//       }
+//     } catch (err) {
+//       rejectWithValue(err);
+//     }
+//   }
+// );
+
 export const getSingleUsers = createAsyncThunk(
-  "getSingleUsers",
+  "getSingleUsers/userSlice",
   async (id, { rejectWithValue }) => {
     try {
       const User_response = await dataService.get(
         `${API.GET_SINGLE_USER}/${id}`
       );
-      console.log("User_response", User_response);
-      if (User_response?.status === 200) {
-        return User_response;
-      }
+      return User_response;
     } catch (err) {
-      rejectWithValue(err);
+      return rejectWithValue(err?.response?.data);
     }
   }
 );
 
 export const addRolePermission = createAsyncThunk(
-  "addRolePermission",
+  "addRolePermission/roleReducer",
   async (data, { rejectWithValue }) => {
-    console.log(data, "commingData");
     try {
       const add_rolePermission = await dataService.post(
         API.ADD_ROLE_PERMISSION,
         data
       );
-      console.log("add_rolePermission", add_rolePermission);
-      if (add_rolePermission.status === 201) {
-        return add_rolePermission;
-      }
+     
+
+      return add_rolePermission;
     } catch (err) {
-      rejectWithValue(err);
+      return rejectWithValue(err?.response?.data);
     }
   }
 );
 
 export const addUser = createAsyncThunk(
-  "addUser",
-  async (data, { rejectWithValue }) => {
-    console.log(data, "commingData");
+  "addUser/userSlice",
+  async ({ data, navigate }, { rejectWithValue }) => {
     try {
       const add_user = await dataService.post(API.ADD_USER, data);
-      console.log("add_rolePermission", add_user);
-      if (add_user.status === 201) {
-        return add_user;
+
+      if (add_user?.data?.status == 201) {
+        navigate("/admin/dashboard/user-list");
       }
+      return add_user;
     } catch (err) {
-      rejectWithValue(err);
+      return rejectWithValue(err?.response?.data);
     }
   }
 );
 
 export const deleteUser = createAsyncThunk(
-  "deleteUser",
-  async (id, { rejectWithValue }) => {
-    console.log(id, "commingData");
+  "deleteUser/userSlice",
+  async ({ id, navigate }, { rejectWithValue }) => {
     try {
       const delete_user = await dataService.delete(`${API.DELETE_USER}/${id}`);
-      console.log("delete_USER", delete_user);
-      if (delete_user.status === 200) {
-        return delete_user;
+      return delete_user;
+    } catch (err) {
+      return rejectWithValue(err?.response?.data);
+    }
+  }
+);
+
+export const deleteRolePermission = createAsyncThunk(
+  "deleteRolePermission",
+  async (id, { rejectWithValue }) => {
+    console.log(id, "deleteRolePermissionID");
+    try {
+      const delete_role_permission = await dataService.delete(
+        `${API.DELETE_ROLE_PERMISSION}/${id}`
+      );
+      console.log("delete_ROLE_PERMISSION", delete_role_permission);
+      if (delete_role_permission.status === 200) {
+        return delete_role_permission;
       }
     } catch (err) {
       console.log(err.message, "err");
@@ -124,21 +143,18 @@ export const deleteUser = createAsyncThunk(
 
 export const UpdateUser = createAsyncThunk(
   "UpdateUser",
-  async (data, { rejectWithValue }) => {
-    debugger;
-    console.log(data, "updateCommingData");
+  async ({ data, id }, { rejectWithValue }) => {
+    // debugger;
+    console.log(JSON.stringify(data, "IDupdateCommingData"));
     try {
       // let id=data?.id;
-      const update_user = await dataService.put(
-        `${API.UPDATE_USER}/${"sdfsdf"}`,
+      const update_user = await dataService.post(
+        `${API.UPDATE_USER}/${id}`,
         data
       );
-      console.log("update_USER", update_user);
-      if (update_user.status === 200) {
-        return update_user;
-      }
+      return update_user;
     } catch (err) {
-      console.log(err.message, "err");
+      console.log(err?.message, "err");
       rejectWithValue(err);
     }
   }

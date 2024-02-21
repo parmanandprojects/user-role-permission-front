@@ -21,6 +21,7 @@ import { UpdateUser, addUser, getAllRolePermission } from "../../../redux";
 import { toast } from "react-toastify";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
+import { imageURL } from "../../../config/DataService";
 
 const AddUser = () => {
   const [allRole, setAllRoles] = React.useState([]);
@@ -41,57 +42,48 @@ const AddUser = () => {
       email: location?.state ? location?.state?.email : "",
       mobile: location?.state ? location?.state?.mobile : "",
       password: "",
-      roleType: location?.state ? location?.state?.rolePermission?.
-      _id : "",
+      roleType: location?.state ? location?.state?.rolePermission?._id : "",
       profilePic: "",
     },
     validationSchema: location.state
       ? UserEditValidationSchema
       : UserRegisterValidationSchema,
     onSubmit: (values) => {
-    
-if(location.state._id){
-  const formData = new FormData();
-      formData.append("name", values?.name);
-      formData.append("email", values?.email);
-      formData.append("mobile", values?.mobile);
-      // formData.append("password", values?.password);
-      formData.append("roleType", values?.roleType);
-      formData.append("profilePic", values?.profilePic);
-      
-      alert(JSON.stringify(values, null, 2));
+      if (location?.state?._id) {
+        const formData = new FormData();
+        console.log(values?.profilePic, "valuePIC");
+        formData.append("name", values?.name);
+        formData.append("email", values?.email);
+        formData.append("mobile", values?.mobile);
+        // formData.append("password", values?.password);
+        formData.append("roleType", values?.roleType);
+        formData.append("profilePic", values?.profilePic);
+        alert(JSON.stringify(values, null, 2));
 
-
-   dispatch(UpdateUser(formData,location.state._id))
-        // .then((res) => {
-        //   if (res?.payload?.data?.status == 201) {
-        //     toast.success(res?.payload?.data?.message);
-        //     navigate("/admin/dashboard/user-list");
-        //   }
-        // })
+        //  dispatch(UpdateUser({...values,id:location.state._id}))
+        dispatch(UpdateUser({ data: formData, id: location.state._id })).then(
+          (res) => {
+            if (res?.payload?.data?.status == 200) {
+              toast.success(res?.payload?.data?.message);
+              navigate("/admin/dashboard/user-list");
+            }
+          }
+        );
         // .catch((err) => console.log("err", err));
-}else{
+      } else {
+        const formData = new FormData();
+        formData.append("name", values?.name);
+        formData.append("email", values?.email);
+        formData.append("mobile", values?.mobile);
+        formData.append("password", values?.password);
+        formData.append("roleType", values?.roleType);
+        formData.append("profilePic", values?.profilePic);
+        alert(JSON.stringify(values, null, 2));
 
+        dispatch(addUser({data:formData,navigate}))
+          
+      }
 
-  const formData = new FormData();
-  formData.append("name", values?.name);
-  formData.append("email", values?.email);
-  formData.append("mobile", values?.mobile);
-  formData.append("password", values?.password);
-  formData.append("roleType", values?.roleType);
-  formData.append("profilePic", values?.profilePic);
-  // alert(JSON.stringify(values, null, 2));
-
-  dispatch(addUser(formData))
-  .then((res) => {
-    if (res?.payload?.data?.status == 201) {
-      toast.success(res?.payload?.data?.message);
-      navigate("/admin/dashboard/user-list");
-    }
-  })
-  .catch((err) => console.log("err", err));
-}
-     
       formik.resetForm();
     },
   });
@@ -100,7 +92,7 @@ if(location.state._id){
     dispatch(getAllRolePermission()).then((res) => {
       console.log(res?.payload?.data, 4555);
       if (res?.payload?.data?.status == 200) {
-        setAllRoles(res?.payload?.data?.rolls);
+        setAllRoles(res?.payload?.data?.roles);
       }
     });
   }, []);
@@ -218,8 +210,23 @@ if(location.state._id){
               }
               helperText={formik.touched.profilePic && formik.errors.profilePic}
             />
+            {!formik?.values?.profilePic  ? (
+              <img
+                className="edit-imagee"
+                src={`${imageURL}/${location?.state?.profilePic}`}
+                alt="edit"
+              />
+            ) : (
+              <img
+              className="edit-imagee"
+              src={URL.createObjectURL(formik?.values?.profilePic)}
+              alt="img"
+            />
+            )}
+
+            
             <Button type="submit" variant="contained">
-             {location.state?"Update User":"Add User"} 
+              {location.state ? "Update User" : "Add User"}
             </Button>
           </form>
         </Box>
