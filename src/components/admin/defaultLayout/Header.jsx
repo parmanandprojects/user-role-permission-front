@@ -5,14 +5,30 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
+import  "../DefaultLayout.css"
+import { Box, Button } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useDispatch } from 'react-redux';
+import { userLogout } from '../../../redux/authSlices/AuthSlices';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 
 
 
 const Header = ({handleDrawerOpen,open}) => {
+let dispatch=  useDispatch();
+let navigate=useNavigate();
 
 
+const MyhandleLogout=()=>{
+
+  dispatch(userLogout());
+  toast.success("Logout successfully ")
+  navigate("/")
+  
+}
     const drawerWidth = 240;
 
     const AppBar = styled(MuiAppBar, {
@@ -44,9 +60,14 @@ const Header = ({handleDrawerOpen,open}) => {
           >
             <MenuIcon />
           </IconButton>
+          <Box className="header-icons">
           <Typography variant="h6" noWrap component="div">
             Admin
           </Typography>
+          <Button onClick={MyhandleLogout} color={"error"} variant='contained'><LogoutIcon/></Button>
+
+          </Box>
+        
         </Toolbar>
       </AppBar>
     

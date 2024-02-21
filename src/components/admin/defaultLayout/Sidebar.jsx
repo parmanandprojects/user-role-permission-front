@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 
 const Sidebar = ({handleDrawerClose,open}) => {
 const {rolePermission}= useSelector((state)=>state?.Auth.user);
-console.log(rolePermission.role_name,"rolePermission")
+console.log(rolePermission?.role_name,"rolePermission")
 
 const theme = useTheme();
 const drawerWidth = 240;
@@ -28,6 +28,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
   }));
+  
   return (
     <>
      <Drawer
@@ -50,35 +51,39 @@ const DrawerHeader = styled('div')(({ theme }) => ({
         </DrawerHeader>
         <Divider />
         <List>
-        <Link to="/admin/dashboard/role-permission-list"><ListItem disablePadding>
+        {rolePermission?.role_name=="sub-admin"? <Link to="/admin/dashboard/role-permission-list"><ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Role Permission List"} />
               </ListItemButton>
-            </ListItem></Link> 
+            </ListItem></Link>  :""}    
 
-     {rolePermission.role_name=="sub-admin"?<Link to="/admin/dashboard/user-list"><ListItem disablePadding>
+     {rolePermission?.role_name=="warden" || rolePermission?.role_name=="HR-officer"?
+      <Link to="/admin/dashboard/warden">
+      <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
-                <ListItemText primary={"User List"} />
+                <ListItemText primary={"cleaning Management"} />
               </ListItemButton>
-            </ListItem></Link> :""}      
+            </ListItem>
+       </Link>  
+            :""}      
         </List>
 
-        <Link to="/admin/dashboard/role-permission-list"><ListItem disablePadding>
+        {/* <Link to="/admin/dashboard/role-permission-list"><ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Role Permssion List"} />
+                <ListItemText primary={""} />
               </ListItemButton>
-            </ListItem></Link>
+            </ListItem></Link> */}
 
-            {rolePermission.role_name=="HR-officer"?  <Link to="/admin/dashboard/role-list"><ListItem disablePadding>
+            {rolePermission?.role_name=="HR-officer"||"sub-admin"?  <Link to="/admin/dashboard/attendance"><ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
@@ -86,6 +91,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
                 <ListItemText primary={"Attendance"} />
               </ListItemButton>
             </ListItem></Link> :""}
+
+
+            {rolePermission?.role_name=="tpm"?  <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <InboxIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Task"} />
+              </ListItemButton>
+            </ListItem> :""}
         <Divider />
         {/* <List>
           {['All mail'].map((text, index) => (

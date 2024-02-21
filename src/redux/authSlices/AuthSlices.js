@@ -5,7 +5,14 @@ import { userLogin } from "..";
 const AuthSlices = createSlice({
   name: "authSlice",
   initialState: { loading: false, token: "", user:null },
-  reducers: {},
+  reducers: {
+    userLogout(state,action){
+      localStorage.removeItem("loginToken");
+      state.token="";
+      state.user="";
+
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(userLogin.fulfilled, (state, action) => {
       console.log(action,78)
@@ -21,3 +28,4 @@ const AuthSlices = createSlice({
 });
 
 export default AuthSlices.reducer;
+export const {  userLogout } = AuthSlices.actions

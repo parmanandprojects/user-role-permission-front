@@ -10,7 +10,7 @@
 
 import React, { useEffect, useState } from "react";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   deleteRolePermission,
   deleteUser,
@@ -56,9 +56,15 @@ const RolePermissionList = () => {
   const [viewData, setViewData] = useState({});
   const [profilePic, setProfilePic] = useState("");
   const [allpermission, setAllPermission] = useState([]);
-  console.log(rolePermissionList, "rolePermissionList");
+
+  //get state from redux-
+  const {rolePermission}= useSelector((state)=>state?.Auth.user);
+  console.log(rolePermission?.role_name,"rolePermission")
+
+  //create instance 
   let dispatch = useDispatch();
   let navigate = useNavigate();
+
   useEffect(() => {
     dispatch(getAllRolePermission()).then((res) => {
       console.log(res.payload.data, "dt");
@@ -68,6 +74,7 @@ const RolePermissionList = () => {
       }
     });
   }, []);
+
   //Model func--
   const handleOpen = (permission) => {
     const permissionsArray = Object?.keys(permission)?.map((moduleName) => ({
@@ -77,6 +84,8 @@ const RolePermissionList = () => {
     setAllPermission(permissionsArray);
     setOpen(true);
   };
+
+  //model func-
   const handleClose = () => setOpen(false);
 
   const handleDelete = (id) => {
@@ -181,13 +190,13 @@ const RolePermissionList = () => {
                         <EditIcon />
                       </Button>
                       &nbsp;&nbsp;
-                      <Button
+                      {rolePermission?.role_name=="sub-admin"? "" :  <Button
                         variant="contained"
                         onClick={() => handleDelete(user?._id)}
                         color="error"
                       >
                         <DeleteIcon />
-                      </Button>
+                      </Button> }     
                     </TableCell>
                   </TableRow>
                 ))}
