@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { addRolePermission, getAllRolePermission } from "../..";
+import { toast } from "react-toastify";
 
 const RoleSlice = createSlice({
   name: "roleReducer",
@@ -22,10 +23,10 @@ const RoleSlice = createSlice({
       console.log(action, "action");
     });
     builder.addCase(addRolePermission.fulfilled, (state, action) => {
-      console.log(action, 123456);
+      toast.success(action?.payload?.data?.message)
     });
     builder.addCase(addRolePermission.rejected, (state, action) => {
-      console.log(action, "rejected");
+      toast.error(action?.payload?.message)
     });
   },
 });

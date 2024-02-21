@@ -1,131 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { getAllRolePermission } from "../../../redux";
-// import { toast } from "react-toastify";
-// import "./RolePermissionList.css";
-// import { Box, Button } from "@mui/material";
-// import Table from "@mui/material/Table";
-// import TableBody from "@mui/material/TableBody";
-// import TableCell from "@mui/material/TableCell";
-// import TableContainer from "@mui/material/TableContainer";
-// import TableHead from "@mui/material/TableHead";
-// import TableRow from "@mui/material/TableRow";
-// import Paper from "@mui/material/Paper";
-// import Checkbox from '@mui/material/Checkbox';
-
-// const RolePermissionList = () => {
-//   const [roles, setRoles] = useState([]);
-//   const [updatedPermissions, setUpdatedPermissions] = useState({});
-//   const dispatch = useDispatch();
-
-//   useEffect(() => {
-//     dispatch(getAllRolePermission())
-//       .then((res) => {
-//         if (res.payload.data.status === 200) {
-//           toast.success(res?.payload?.data?.message);
-//           setRoles(res?.payload?.data?.rolesPermission);
-//           initializeUpdatedPermissions(res?.payload?.data?.rolesPermission);
-//         }
-//       })
-//       .catch((err) => console.log(err));
-//   }, []);
-
-//   const initializeUpdatedPermissions = (rolesPermission) => {
-//     const initialPermissions = {};
-//     rolesPermission.forEach((role, index) => {
-//       initialPermissions[index] = { ...role.permission };
-//     });
-//     setUpdatedPermissions(initialPermissions);
-//   };
-
-//   const handleCheckboxChange = (event, roleIndex, permissionType) => {
-//     const updatedPermission = {
-//       ...updatedPermissions,
-//       [roleIndex]: {
-//         ...updatedPermissions[roleIndex],
-//         [permissionType]: event.target.checked
-//       }
-//     };
-//     setUpdatedPermissions(updatedPermission);
-//   };
-
-//   const handleSubmit = () => {
-//     const formattedPermissions = roles.map((role, index) => ({
-//       permission: { ...updatedPermissions[index] },
-//       _id: role._id,
-//       role_Type: role.role_Type
-//     }));
-//     console.log(formattedPermissions);
-//   };
-
-//   return (
-//     <>
-//       <Box className="Role-Div">
-//         <Box className="add-role-box">
-//         <Button variant="contained">Add Module</Button>
-//         </Box>
-
-//         <Box className="Role-Table">
-//           <TableContainer component={Paper}>
-//             <Table sx={{ minWidth: 650 }} aria-label="simple table">
-//               <TableHead>
-//                 <TableRow>
-//                   <TableCell>Module Name</TableCell>
-//                   <TableCell align="right">ALL</TableCell>
-//                   <TableCell align="right">CREATE</TableCell>
-//                   <TableCell align="right">UPDATE</TableCell>
-//                   <TableCell align="right">DELETE</TableCell>
-//                   <TableCell align="right">VIEW</TableCell>
-//                 </TableRow>
-//               </TableHead>
-//               <TableBody>
-//                 {roles.map((role, index) => (
-//                   <TableRow key={role._id}>
-//                     <TableCell>{role.role_Type}</TableCell>
-//                     <TableCell align="right">
-//                       <Checkbox
-//                         checked={updatedPermissions[index]?.all || false}
-//                         onChange={(e) => handleCheckboxChange(e, index, "all")}
-//                       />
-//                     </TableCell>
-//                     <TableCell align="right">
-//                       <Checkbox
-//                         checked={updatedPermissions[index]?.create || false}
-//                         onChange={(e) => handleCheckboxChange(e, index, "create")}
-//                       />
-//                     </TableCell>
-//                     <TableCell align="right">
-//                       <Checkbox
-//                         checked={updatedPermissions[index]?.update || false}
-//                         onChange={(e) => handleCheckboxChange(e, index, "update")}
-//                       />
-//                     </TableCell>
-//                     <TableCell align="right">
-//                       <Checkbox
-//                         checked={updatedPermissions[index]?.delete || false}
-//                         onChange={(e) => handleCheckboxChange(e, index, "delete")}
-//                       />
-//                     </TableCell>
-//                     <TableCell align="right">
-//                       <Checkbox
-//                         checked={updatedPermissions[index]?.view || false}
-//                         onChange={(e) => handleCheckboxChange(e, index, "view")}
-//                       />
-//                     </TableCell>
-//                   </TableRow>
-//                 ))}
-//               </TableBody>
-//             </Table>
-//           </TableContainer>
-//         </Box>
-//       </Box>
-//       <button onClick={handleSubmit}>Submit</button>
-//     </>
-//   );
-// };
-
-// export default RolePermissionList;
-
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addRolePermission, getAllRolePermission } from "../../../redux";
@@ -145,13 +17,13 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { useNavigate } from "react-router-dom";
 
 const AddRolePermission = () => {
-  let dispatch=useDispatch()
-  let navigate=useNavigate();
+  let dispatch = useDispatch();
+  let navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       role_name: "",
       attendance: {
-        module_access:false,
+        module_access: false,
         all: false,
         create: false,
         update: false,
@@ -159,7 +31,7 @@ const AddRolePermission = () => {
         view: false,
       },
       user: {
-        module_access:false,
+        module_access: false,
         all: false,
         create: false,
         update: false,
@@ -167,7 +39,7 @@ const AddRolePermission = () => {
         view: false,
       },
       task: {
-        module_access:false,
+        module_access: false,
         all: false,
         create: false,
         update: false,
@@ -178,16 +50,13 @@ const AddRolePermission = () => {
     onSubmit: (values) => {
       console.log(values);
       const { role_name, ...permission } = values;
-
-      dispatch(addRolePermission({ role_name, permission })).then((res)=>{
-        if(res?.payload?.status==201){
-          console.log(res?.payload?.data?.message,"ress")
-          toast.success(res?.payload?.data?.message)
-          navigate("/admin/dashboard/role-permission-list")
-          
+      dispatch(addRolePermission({ role_name, permission, navigate })).then(
+        (res) => {
+          if (res?.payload?.status == 201) {
+            navigate("/admin/dashboard/role-permission-list");
+          }
         }
-      })
-      
+      );
     },
   });
 
@@ -196,12 +65,10 @@ const AddRolePermission = () => {
     formik.setFieldValue(name, checked);
   };
 
-
-
   const handleCheckboxChangeall = (event) => {
     const { name, checked } = event.target;
     const [moduleName, permissionType] = name.split(".");
-    
+
     if (permissionType === "all") {
       // If "All" checkbox is clicked, set all permissions in the same row to the same value
       const updatedPermissions = { ...formik.values[moduleName] };
@@ -219,7 +86,7 @@ const AddRolePermission = () => {
       formik.setFieldValue(name, checked);
     }
   };
-  
+
   return (
     <>
       <Box className="Role-Div">
@@ -245,7 +112,6 @@ const AddRolePermission = () => {
                 <TableBody>
                   {/* {roles.map((role, index) => ( */}
                   <TableRow>
-
                     {/* Attedence */}
                     <TableCell>{"attendance"}</TableCell>
 
@@ -268,7 +134,7 @@ const AddRolePermission = () => {
                         control={
                           <Checkbox
                             checked={formik.values.attendance.all}
-                            onClick={(e)=>handleCheckboxChangeall(e) }
+                            onClick={(e) => handleCheckboxChangeall(e)}
                             name="attendance.all"
                           />
                         }
@@ -352,7 +218,7 @@ const AddRolePermission = () => {
                         control={
                           <Checkbox
                             checked={formik.values.user.all}
-                            onClick={(e)=>handleCheckboxChangeall(e) }
+                            onClick={(e) => handleCheckboxChangeall(e)}
                             name="user.all"
                           />
                         }
@@ -436,7 +302,7 @@ const AddRolePermission = () => {
                         control={
                           <Checkbox
                             checked={formik.values.task.all}
-                            onClick={(e)=>handleCheckboxChangeall(e) }
+                            onClick={(e) => handleCheckboxChangeall(e)}
                             name="task.all"
                           />
                         }
@@ -496,9 +362,6 @@ const AddRolePermission = () => {
                     </TableCell>
                   </TableRow>
                   {/* ))} */}
-
-
-
                 </TableBody>
               </Table>
             </TableContainer>

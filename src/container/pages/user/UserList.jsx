@@ -70,9 +70,10 @@ const UserList = () => {
   const handleProfilePicClose = () => setProfileOpen(false);
   const handleDelete = (id) => {
     console.log(id, "oo");
-    dispatch(deleteUser(id)).then((res) => {
+    dispatch(deleteUser({id,navigate})).then((res) => {
+      console.error(res,4)
       if (res?.payload?.data?.status == 200) {
-        toast.success(res?.payload?.data?.message);
+        // toast.success(res?.payload?.data?.message);
         dispatch(getAllUsers()).then((res) => {
           if (res?.payload?.data?.status == 200) {
             setUserList(res?.payload?.data?.users);

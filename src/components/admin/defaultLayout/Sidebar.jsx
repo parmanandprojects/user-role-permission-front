@@ -51,7 +51,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
         </DrawerHeader>
         <Divider />
         <List>
-        {rolePermission?.role_name=="sub-admin"? <Link to="/admin/dashboard/role-permission-list"><ListItem disablePadding>
+        {rolePermission?.role_name=="admin"? <Link to="/admin/dashboard/role-permission-list"><ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
@@ -60,7 +60,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
               </ListItemButton>
             </ListItem></Link>  :""}    
 
-     {rolePermission?.role_name=="warden" || rolePermission?.role_name=="HR-officer"?
+     {rolePermission?.role_name=="warden" || "HR-officer"||"admin"?
       <Link to="/admin/dashboard/warden">
       <ListItem disablePadding>
               <ListItemButton>
@@ -73,17 +73,18 @@ const DrawerHeader = styled('div')(({ theme }) => ({
        </Link>  
             :""}      
         </List>
-
-        {/* <Link to="/admin/dashboard/role-permission-list"><ListItem disablePadding>
+ {rolePermission?.role_name== "HR-officer"||"admin"||"sub-admin"?
+        <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
-                <ListItemText primary={""} />
+                <ListItemText primary={"Office-Management-Programm"} />
               </ListItemButton>
-            </ListItem></Link> */}
+            </ListItem>
+                 :""} 
 
-            {rolePermission?.role_name=="HR-officer"||"sub-admin"?  <Link to="/admin/dashboard/attendance"><ListItem disablePadding>
+            {rolePermission?.role_name=="HR-officer"||"sub-admin"||"admin"?  <Link to="/admin/dashboard/attendance"><ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />
@@ -93,7 +94,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
             </ListItem></Link> :""}
 
 
-            {rolePermission?.role_name=="tpm"?  <ListItem disablePadding>
+            {rolePermission?.role_name=="tpm"||"sub-admin"||"admin"?  <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <InboxIcon />

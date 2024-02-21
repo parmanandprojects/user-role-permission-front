@@ -80,14 +80,8 @@ const AddUser = () => {
         formData.append("profilePic", values?.profilePic);
         alert(JSON.stringify(values, null, 2));
 
-        dispatch(addUser(formData))
-          .then((res) => {
-            if (res?.payload?.data?.status == 201) {
-              toast.success(res?.payload?.data?.message);
-              navigate("/admin/dashboard/user-list");
-            }
-          })
-          .catch((err) => console.log("err", err));
+        dispatch(addUser({data:formData,navigate}))
+          
       }
 
       formik.resetForm();

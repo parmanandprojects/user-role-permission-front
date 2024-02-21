@@ -30,7 +30,7 @@ const Login = () => {
     },
     validationSchema: LoginValidationSchema,
     onSubmit: (values) => {
-      dispatch(userLogin(values)).then((res) => {
+      dispatch(userLogin({data:values,navigate})).then((res) => {
         if (res?.payload?.data?.status == 200) {
           console.log(res.payload.data.user.token, 456);
           toast.success(res?.payload?.data?.message);

@@ -16,7 +16,7 @@ const PublicRoutes = () => {
       <Routes>
         <Route path="/" element={<Login />} />
 
-        <Route element={<ProtectedRoute />}>   
+        {/* <Route element={<ProtectedRoute />}>    */}
         <Route path="admin/dashboard" element={<Dashboard />}>
           <Route path="add-role-permission" element={<AddRolePermission />} />
           <Route path="role-permission-list" element={<RolePermissionList />} />
@@ -25,7 +25,7 @@ const PublicRoutes = () => {
           <Route path="attendance" element={<Attendance />} />
           <Route path="warden" element={<Warden />} />
         </Route>
-        </Route>
+        {/* </Route> */}
 
       </Routes>
     </>
